@@ -11,7 +11,7 @@
 !.yarn/versions
 
 #hide
-env
+.env
 .env.local
 
 # testing
