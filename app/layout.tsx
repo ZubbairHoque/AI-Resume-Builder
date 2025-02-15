@@ -10,7 +10,6 @@ import {
 } from "@clerk/nextjs";
 import Provider from "./provider";
 
-
 // Initialize the Roboto font with specific subsets and weight
 const roboto = Roboto({
   subsets: ["latin"],
@@ -38,8 +37,11 @@ export default function RootLayout({
             <SignInButton />
           </SignedOut>
           <SignedIn>
+            <UserButton />
           </SignedIn>
-          {children}
+          <Provider>
+            {children}
+          </Provider>
         </body>
       </html>
     </ClerkProvider>
