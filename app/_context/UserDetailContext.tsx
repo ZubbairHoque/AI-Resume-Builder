@@ -1,3 +1,4 @@
+"use client"
 import { createContext, Dispatch, SetStateAction } from 'react';
 
 // Define a specific type for user details

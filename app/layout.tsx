@@ -33,11 +33,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={roboto.className}> {/* Apply the Roboto font class */}
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
           <SignedIn>
-            <UserButton />
           </SignedIn>
           <Provider>
             {children}
