@@ -1,25 +1,29 @@
 "use client";
-import React, { useContext } from 'react';
-import Header from './_components/Header';
-import { UserDetailContext } from '../_context/UserDetailContext';
+import React, { useContext } from "react";
+import Header from "./_components/Header";
+import { UserDetailContext } from "../_context/UserDetailContext";
 
 export default function Dashboard({ children }: { children: React.ReactNode }) {
-  // Use context and handle the case where it might be null
   const context = useContext(UserDetailContext);
 
-  // Check if context is null and handle it appropriately
   if (!context) {
-    // You can choose to return null, a loading state, or an error message
-    return <div>Error: User details not available.</div>;
+    return <div className="text-center text-red-500 text-lg">Error: User details not available.</div>;
   }
 
   const { userDetail } = context;
+  const username = userDetail[0]?.name || "Guest";
 
   return (
     <div>
       <Header />
-      <div className='pt-20 px-10 md:px-20 lg:px-40 xl:px-60'>
-        <h2>Welcome back {userDetail[0]?.name} to your dashboard.</h2>
+      <div className="pt-20 px-10 md:px-20 lg:px-40 xl:px-60 text-center">
+        <h2 className="text-4xl font-extrabold bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text animate-fade-in inline-block">
+          Welcome back, {username}!
+        </h2>
+        <span className="text-4xl font-extrabold text-gray-800"> 🎉</span>
+        <p className="text-gray-600 mt-2 text-lg">
+          Create your resume with AI to land your dream job.
+        </p>
         {children}
       </div>
     </div>
