@@ -5,8 +5,6 @@ import {
   ClerkProvider,
   SignInButton, 
   SignedIn, 
-  SignedOut, 
-  UserButton 
 } from "@clerk/nextjs";
 import Provider from "./provider";
 
@@ -33,8 +31,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={roboto.className}> {/* Apply the Roboto font class */}
-          <SignedIn>
-          </SignedIn>
+          
           <Provider>
             {children}
           </Provider>

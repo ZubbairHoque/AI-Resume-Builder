@@ -22,10 +22,10 @@ export async function POST(req: Request) {
                 })
                 .returning();
 
-            return NextResponse.json({ result: SaveResult[0] });
+            return NextResponse.json({ result: SaveResult });
         }
 
-        return NextResponse.json({ result: userInfo[0] });
+        return NextResponse.json({ result: userInfo });
     } catch (e: unknown) {
         // Check if e is an instance of Error to safely access the message property
         if (e instanceof Error) {

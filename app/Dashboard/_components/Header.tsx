@@ -3,14 +3,16 @@ import Image from "next/image";
 
 const Header = () => {
   return (
-    <header className="flex items-center justify-between px-6 py-4 bg-white shadow-md">
-      {/* Logo / Title */}
-      <Image src={"/logo.svg"} alt="" width={40} height={40} />
-      <h1 className="text-2xl font-bold text-blue-600">AI Resume Builder</h1>
-      
-      {/* User Profile Button */}
-      <UserButton/>
-    </header>
+    <div className="p-5 shadow-lg bg-white rounded-md border-b-4 border-black flex justify-between items-center">
+      {/* Left side: Logo and Title */}
+      <div className="flex items-center gap-2">
+        <Image src="/logo.svg" alt="Logo" width={40} height={40} />
+        <h1 className="text-2xl font-bold text-greys">AI Resume Builder</h1>
+      </div>
+
+      {/* Right side: User Profile Button */}
+      <UserButton />
+    </div>
   );
 };
 

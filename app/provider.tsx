@@ -1,7 +1,7 @@
 "use client";
 import { useUser } from '@clerk/nextjs';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { UserDetailContext } from './_context/UserDetailContext';
 import { ReactNode } from 'react';
 
@@ -17,21 +17,19 @@ function Provider({ children }: { children: ReactNode }) {
     // Explicitly specify the type of userDetail as UserDetail[]
     const [userDetail, setUserDetail] = useState<UserDetail[]>([]);
 
-    useEffect(() => {
-        // Define the VerifyUser function inside useEffect
-        const VerifyUser = async () => {
+    const VerifyUser = useCallback(async () => {
+        if (user) {
             const dataResult = await axios.post('/api/verify-user', {
                 user: user
             });
             // Ensure the data returned is of type UserDetail[]
             setUserDetail(dataResult.data.result);
-        };
-
-        // Use an if statement to conditionally call VerifyUser
-        if (user) {
-            VerifyUser();
         }
-    }, [user]); // Only depend on 'user'
+    }, [user]);
+
+    useEffect(() => {
+        VerifyUser();
+    }, [VerifyUser]);
 
     return (
         <UserDetailContext.Provider value={{ userDetail, setUserDetail }}>

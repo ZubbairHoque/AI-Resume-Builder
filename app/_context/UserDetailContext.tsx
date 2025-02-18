@@ -2,6 +2,7 @@
 import { createContext, Dispatch, SetStateAction } from 'react';
 
 // Define a specific type for user details
+
 interface UserDetail {
     id: string; // Example field, replace with actual fields
     name: string; // Example field, replace with actual fields

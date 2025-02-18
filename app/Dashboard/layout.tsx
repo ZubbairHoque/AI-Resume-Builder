@@ -8,6 +8,7 @@ function DashboardLayout(
 ) {
   return (
     <div>
+      
         {children}
     </div>
   )
