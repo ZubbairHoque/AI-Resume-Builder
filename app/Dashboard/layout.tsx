@@ -1,4 +1,6 @@
+"use client"
 import React from 'react'
+import Header from './_components/Header';
 
 function DashboardLayout(
     {children}
@@ -8,7 +10,7 @@ function DashboardLayout(
 ) {
   return (
     <div>
-      
+      <Header />
         {children}
     </div>
   )

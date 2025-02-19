@@ -1,6 +1,7 @@
 import { UserButton } from "@clerk/clerk-react";
 import Image from "next/image";
 
+
 const Header = () => {
   return (
     <div className="p-5 shadow-lg bg-white rounded-md border-b-4 border-black flex justify-between items-center">

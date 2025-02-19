@@ -1,9 +1,9 @@
-"use client";
+"use client"
 import React, { useContext } from "react";
-import Header from "./_components/Header";
 import { UserDetailContext } from "../_context/UserDetailContext";
-
-export default function Dashboard({ children }: { children: React.ReactNode }) {
+import AddResume from "./_components/addResume";
+import ResumeList from "./_components/resumeList";
+export default function Dashboard() {
   const context = useContext(UserDetailContext);
 
   if (!context) {
@@ -15,7 +15,6 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
 
   return (
     <div>
-      <Header />
       <div className="pt-20 px-10 md:px-20 lg:px-40 xl:px-60 text-center">
         <h2 className="text-4xl font-extrabold bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text animate-fade-in inline-block">
           Welcome back, {username}!
@@ -24,7 +23,22 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
         <p className="text-gray-600 mt-2 text-lg">
           Create your resume with AI to land your dream job.
         </p>
-        {children}
+
+        {/* Creating CV Section */}
+        <div className="w-full pt-11">
+          <h5 
+          className="text-xl font-semibold dark:text-inherit
+          mb-3
+          ">
+            <div className="flex flex-wrap w-full">
+              <AddResume /> 
+              <ResumeList />
+            </div>
+          </h5>
+        </div>
+        <div>
+
+        </div>
       </div>
     </div>
   );
