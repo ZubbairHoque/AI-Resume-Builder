@@ -1,34 +1,26 @@
-import { Plus } from 'lucide-react';
-import React, { useCallback } from 'react'
+"use client";
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 
-function AddResume() {
-  const onCreate = useCallback(() => {}, []);
+const onCreate = () => {
+  console.log("Creating a new resume...");
+};
+export default function AddResume() {
+  
   return (
-    <div role='button' 
-    className='p-[2px] cursor-pointer'
-    onClick={onCreate}
-    >
-      <div className='
-      py-24 h-[183px] flex flex-col
-      rounded-lg gap-2 w-full max-w-full
-      items-center justify-center
-      border
-      bg-white
-      hover:bg-primary
-      transition
-      hover:shadow
-      dark:bg-secondary'
+    <div className="w-64 h-96 mx-4 p-10 bg-white shadow-lg rounded-2xl border border-gray-300 flex flex-col items-center">
+      <Button
+        onClick={onCreate}
+        className="w-20 h-20 rounded-full bg-blue-600 text-white flex items-center justify-center hover:bg-blue-700"
       >
-        <span>
-          <Plus size="30px"/>
-        </span>
-        <p 
-        className='text-sm font-semibold
-        '
-        >Blank Resume</p>
-      </div>
+        
+          <span className="animate-spin">🔄</span>
+       
+          <Plus size={32} />
+        
+      </Button>
+      <p className="mt-4 text-gray-700 text-sm">Add New Resume</p>
     </div>
-  )
+  );
 }
-
-export default AddResume
