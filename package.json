@@ -26,7 +26,7 @@
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.39.3",
     "esbuild": "^0.25.0",
-    "hono": "^4.6.4",
+    "hono": "^4.6.5",
     "lucide-react": "^0.475.0",
     "next": "15.1.7",
     "next-theme": "^0.1.5",
