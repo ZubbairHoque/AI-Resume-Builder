@@ -1,5 +1,7 @@
 import { Hono } from 'hono'
 import { handle } from 'hono/vercel'
+import { z } from 'zod';
+import { zValidator } from '@hono/zod-validator';
 
 export const runtime = 'edge';
 
@@ -7,23 +9,42 @@ const app = new Hono().basePath('/api')
 
 app
   .get(
-    '/hello', 
-    (x) => x,
-    (x) => x,
-    (x) => x,
-     
+    '/hello',
     (c) => {
     return c.json({
       message: 'Hello Next.js!',
   })
 })
-.get("/hello/:id", (c) => {
-  const id = c.req.param("id");
+.get(
+  "/hello/:id", 
+  
+  zValidator(
+    'param',
+    z.object({
+      id: z.string(),
+    })
+  ),
+  (c) => {
+  const { id } = c.req.valid("param");
   return c.json({
-    message: "hello submission",
+    message: "hello subcriber",
     id: id,
   });
 });
+
+  .post(
+    "/create/:postid",
+
+    zValidator(
+      'param',
+      z.object({
+        postid: z.string(),
+      }) 
+    ),
+    (c) => {
+    return c.json({})
+  }
+);
 
 export const GET = handle(app)
 export const POST = handle(app)
