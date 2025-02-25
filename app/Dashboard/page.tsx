@@ -3,6 +3,8 @@ import React, { useContext } from "react";
 import { UserDetailContext } from "../_context/UserDetailContext";
 import AddResume from "./_components/addResume";
 import ResumeList from "./_components/resumeList";
+
+
 export default function Dashboard() {
   const context = useContext(UserDetailContext);
 
