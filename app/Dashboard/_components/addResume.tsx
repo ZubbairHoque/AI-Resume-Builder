@@ -1,7 +1,7 @@
 "use client";
 import React, { useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { Loader, Plus } from "lucide-react";
+import { FileText, Loader, Plus } from "lucide-react";
 
 // Define the AddResume component
 const AddResume = () => {
@@ -24,7 +24,10 @@ const AddResume = () => {
           className="fixed top-0 left-0 z-[9999] right-0 flex flex-col gap-2 items-center justify-center backdrop-filter bg-black/30 w-full h-full"
         >
           <Loader size="35px" className="animate-spin" />
-          <div className="flex items-center gap-2"></div>
+          <div className="flex items-center gap-2">
+            <FileText />
+            Creating your resume...
+          </div>
         </div>
       )}
     </div>

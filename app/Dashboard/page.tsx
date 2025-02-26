@@ -30,9 +30,10 @@ export default function Dashboard() {
         <div className="w-full pt-11">
           <h5 
           className="text-xl font-semibold dark:text-inherit
-          mb-3
+          mb-3 items-start justify-between border-b pb-2
           ">
-            <div className="flex flex-wrap w-full">
+            <p>All Resumes</p>
+            <div className="flex flex-wrap w-full gap-2">
               <AddResume /> 
               <ResumeList />
             </div>
