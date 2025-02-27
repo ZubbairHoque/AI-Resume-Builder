@@ -8,17 +8,17 @@ import {
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
-/** todo: Uncomment the following code
-import { personalInfoTable, personalInfoTableSchema } from "./personal-info";
-import { experienceTable, experienceTableSchema } from "./experience";
-import { educationTable, educationTableSchema } from "./education";
-import { skillsTable, skillsTableSchema } from "./skills";
-
 import { createInsertSchema } from "drizzle-zod";
-import { z } from "zod";
-*/
+import { z } from "zod"; // Ensure Zod is imported
+import { personalInfoTable } from "./personal-info";
+import { experienceTable } from "./experience";
+import { skillsTable } from "./skills";
+import { educationTable } from "./education";
+
+// Define the status enum
 export const statusEnum = pgEnum("status", ["archived", "private", "public"]);
 
+// Define the document table schema
 export const documentTable = pgTable("document", {
   id: serial("id").notNull().primaryKey(),
   documentId: varchar("document_id").unique().notNull(),
@@ -36,22 +36,23 @@ export const documentTable = pgTable("document", {
   createdAt: timestamp("created_at", { mode: "string" }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { mode: "string" }).notNull().defaultNow(),
 });
-/** TODO: Uncomment the following code
+
+// Define the document relations
 export const documentRelations = relations(documentTable, ({ one, many }) => {
   return {
     personalInfo: one(personalInfoTable),
     experiences: many(experienceTable),
-    educations: many(educationTable),
+    education: many(educationTable),
     skills: many(skillsTable),
   };
 });
 
-
+// Create the document table schema using Zod
 export const createDocumentTableSchema = createInsertSchema(documentTable, {
-  title: (schema) => schema.title.min(1),
-  themeColor: (schema) => schema.themeColor.optional(),
-  thumbnail: (schema) => schema.thumbnail.optional(),
-  currentPosition: (schema) => schema.currentPosition.optional(),
+  title: z.string().min(1), // Use Zod's string method and apply min constraint
+  themeColor: z.string().optional(), // Use Zod's string method and make it optional
+  thumbnail: z.string().optional(), // Use Zod's string method and make it optional
+  currentPosition: z.number().optional(), // Use Zod's number method and make it optional
 }).pick({
   title: true,
   status: true,
@@ -61,20 +62,5 @@ export const createDocumentTableSchema = createInsertSchema(documentTable, {
   currentPosition: true,
 });
 
-export const updateCombinedSchema = z.object({
-  title: createDocumentTableSchema.shape.title.optional(),
-  status: createDocumentTableSchema.shape.status.optional(),
-  thumbnail: createDocumentTableSchema.shape.thumbnail.optional(),
-  summary: createDocumentTableSchema.shape.summary.optional(),
-  themeColor: createDocumentTableSchema.shape.themeColor.optional(),
-  currentPosition: createDocumentTableSchema.shape.currentPosition.optional(),
-  personalInfo: personalInfoTableSchema.optional(),
-  education: z.array(educationTableSchema).optional(),
-  experience: z.array(experienceTableSchema).optional(),
-  skills: z.array(skillsTableSchema).optional(),
-});
-
+// Define the document schema type
 export type DocumentSchema = z.infer<typeof createDocumentTableSchema>;
-
-export type UpdateDocumentSchema = z.infer<typeof updateCombinedSchema>
-;*/
