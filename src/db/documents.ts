@@ -10,10 +10,10 @@ import {
 } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod"; // Ensure Zod is imported
-import { personalInfoTable } from "./personal-info";
-import { experienceTable } from "./experience";
-import { skillsTable } from "./skills";
-import { educationTable } from "./education";
+import { personalInfoTable , personalInfoTableSchema } from "./personal-info";
+import { experienceTable, experienceTableSchema } from "./experience";
+import { skillsTable, skillsTableSchema } from "./skills";
+import { educationTable, educationTableSchema } from "./education";
 
 // Define the status enum
 export const statusEnum = pgEnum("status", ["archived", "private", "public"]);
@@ -47,12 +47,14 @@ export const documentRelations = relations(documentTable, ({ one, many }) => {
   };
 });
 
-// Create the document table schema using Zod
+// Add authorName and authorEmail to the schema
 export const createDocumentTableSchema = createInsertSchema(documentTable, {
-  title: z.string().min(1), // Use Zod's string method and apply min constraint
-  themeColor: z.string().optional(), // Use Zod's string method and make it optional
-  thumbnail: z.string().optional(), // Use Zod's string method and make it optional
-  currentPosition: z.number().optional(), // Use Zod's number method and make it optional
+  title: z.string().min(1),
+  themeColor: z.string().optional(),
+  thumbnail: z.string().optional(),
+  currentPosition: z.number().optional(),
+  authorName: z.string().min(1), // Ensure authorName is a required string
+  authorEmail: z.string().email(), // Ensure authorEmail is a valid email
 }).pick({
   title: true,
   status: true,
@@ -60,7 +62,23 @@ export const createDocumentTableSchema = createInsertSchema(documentTable, {
   themeColor: true,
   thumbnail: true,
   currentPosition: true,
+  authorName: true,
+  authorEmail: true,
 });
+
+export const updateCombinedSchema = z.object({
+  title: createDocumentTableSchema.shape.title.optional(),
+  status: createDocumentTableSchema.shape.status.optional(),
+  thumbnail: createDocumentTableSchema.shape.thumbnail.optional(),
+  summary: createDocumentTableSchema.shape.summary.optional(),
+  themeColor: createDocumentTableSchema.shape.themeColor.optional(),
+  currentPosition: createDocumentTableSchema.shape.currentPosition.optional(),
+  personalInfo: personalInfoTableSchema.optional(),
+  education: z.array(educationTableSchema).optional(),
+  experience: z.array(experienceTableSchema).optional(),
+  skills: z.array(skillsTableSchema).optional(),
+});
+
 
 // Define the document schema type
 export type DocumentSchema = z.infer<typeof createDocumentTableSchema>;
