@@ -5,8 +5,10 @@ import { zValidator } from '@hono/zod-validator';
 
 export const runtime = 'edge';
 
-const app = new Hono().basePath('/api'); // Fixed the syntax for creating a new Hono instance
+// Fixed the syntax for creating a new Hono instance
+const app = new Hono().basePath('/api');
 
+// Define routes using the app instance
 app
   .get(
     '/hello',
@@ -47,7 +49,7 @@ app
         postId: z.string(),
       })
     ),
-     async (c) => {
+    async (c) => {
       const { title, summary } = c.req.valid("json");
       const { postId } = c.req.valid("param");
       return c.json({
@@ -57,6 +59,9 @@ app
       });
     }
   );
+
+// Removed the incorrect export of 'routes' and replaced it with 'app'
+export type AppType = typeof app;
 
 // Export handlers for different HTTP methods
 export const GET = handle(app);

@@ -3,10 +3,9 @@ import { Roboto } from "@next/font/google";
 import "./globals.css";
 import { 
   ClerkProvider,
-  SignInButton, 
-  SignedIn, 
 } from "@clerk/nextjs";
 import Provider from "./provider";
+import QueryProvider from "./_context/query-provider";
 
 // Initialize the Roboto font with specific subsets and weight
 const roboto = Roboto({
@@ -31,10 +30,11 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={roboto.className}> {/* Apply the Roboto font class */}
-          
+         <QueryProvider>
           <Provider>
             {children}
           </Provider>
+          </QueryProvider> 
         </body>
       </html>
     </ClerkProvider>
