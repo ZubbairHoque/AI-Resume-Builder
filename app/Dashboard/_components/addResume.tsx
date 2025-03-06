@@ -2,13 +2,26 @@
 import React, { useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { FileText, Loader, Plus } from "lucide-react";
+import useCreateDocument from "@/features/document/use-create-document";
+import { useRouter } from "next/navigation";
 
 // Define the AddResume component
 const AddResume = () => {
-  const isPending = false;
+  const router = useRouter();
+  const { isPending, mutate } = useCreateDocument();
   const onCreate = useCallback(() => {
-    console.log("Create resume button clicked");
-  }, []);
+    mutate(
+      {
+        title: "Untitled Resume",
+      },
+      {
+        onSuccess: (response) => {
+          const documentId = response.data.documentId;
+          router.push(`/dashboard/document/${documentId}/edit`);
+        },
+      }
+    );
+  }, [mutate, router]);
 
   return (
     <div className="w-64 h-96 mx-4 p-10 bg-white shadow-lg rounded-2xl border border-gray-300 flex flex-col items-center">
