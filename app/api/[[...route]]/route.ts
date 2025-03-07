@@ -6,7 +6,7 @@ import documentRoute from "./document";
 
 export const runtime = "edge";
 
-const app = new Hono();
+const app = new Hono().basePath("/api");
 
 app.use("*", logger());
 
@@ -25,8 +25,12 @@ app.get("/", (c) => {
   });
 });
 
-const routes = app.basePath("/api").route("/document", documentRoute);
 
+app.get('/', (c) => {
+  return c.json({
+    message: 'hello from AI Resume!',
+  });
+});
 export type AppType = typeof app;
 
 export const GET = handle(app);

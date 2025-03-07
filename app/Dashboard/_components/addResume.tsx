@@ -1,23 +1,39 @@
 "use client";
-import React, { useCallback } from "react";
-import { Button } from "@/components/ui/button";
-import { FileText, Loader, Plus } from "lucide-react";
-import useCreateDocument from "@/features/document/use-create-document";
-import { useRouter } from "next/navigation";
+import React, { useCallback } from 'react';
+import { Button } from '@/components/ui/button';
+import { FileText, Loader, Plus } from 'lucide-react';
+import useCreateDocument from '@/features/document/use-create-document';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 // Define the AddResume component
 const AddResume = () => {
   const router = useRouter();
-  const { isPending, mutate } = useCreateDocument();
+  const { status, mutate } = useCreateDocument();
+
   const onCreate = useCallback(() => {
+    console.log("Creating document...");
     mutate(
       {
-        title: "Untitled Resume",
+        title: 'Untitled Resume',
+        content: '', // Add the content property
       },
       {
         onSuccess: (response) => {
-          const documentId = response.data.documentId;
-          router.push(`/dashboard/document/${documentId}/edit`);
+          console.log("Document created:", response.data);
+          const documentId = response.data.id;
+          if (documentId) {
+            console.log("Navigating to edit page:", `/dashboard/document/${documentId}/edit`);
+            router.push(`/dashboard/document/${documentId}/edit`);
+          } else {
+            console.error("Document ID is missing in the response");
+          }
+        },
+        onError: (error) => {
+          console.error("Error creating document:", error);
+          if (axios.isAxiosError(error) && error.response) {
+            console.error("Error response:", error.response);
+          }
         },
       }
     );
@@ -32,7 +48,7 @@ const AddResume = () => {
         <Plus size={32} />
       </Button>
       <p className="mt-4 text-gray-700 text-sm">Add New Resume</p>
-      {isPending && (
+      {status === 'pending' && (
         <div
           className="fixed top-0 left-0 z-[9999] right-0 flex flex-col gap-2 items-center justify-center backdrop-filter bg-black/30 w-full h-full"
         >
@@ -47,5 +63,6 @@ const AddResume = () => {
   );
 };
 
-// Export the AddResume component for use in other files
 export default AddResume;
+
+

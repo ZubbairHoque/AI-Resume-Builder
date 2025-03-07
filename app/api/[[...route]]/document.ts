@@ -57,12 +57,14 @@ documentRoute.post(
       );
     } catch (error) {
       // Handle errors and return a failure response
+      console.error("Error saving document:", error);
       return c.json(
         {
           success: false,
           message: "Failed to save document",
-          error: error,
-        }
+          error: error instanceof Error ? error.message : "Unknown error",
+        },
+        { status: 500 }
       );
     }
   }
