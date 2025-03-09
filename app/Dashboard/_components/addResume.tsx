@@ -4,35 +4,28 @@ import { Button } from '@/components/ui/button';
 import { FileText, Loader, Plus } from 'lucide-react';
 import useCreateDocument from '@/features/document/use-create-document';
 import { useRouter } from 'next/navigation';
-import axios from 'axios';
 
 // Define the AddResume component
 const AddResume = () => {
   const router = useRouter();
-  const { status, mutate } = useCreateDocument();
+  const { isPending, mutate } = useCreateDocument();
 
   const onCreate = useCallback(() => {
-    console.log("Creating document...");
     mutate(
       {
-        title: 'Untitled Resume',
-        content: '', // Add the content property
+        title: "Untitled Resume",
+        authorEmail: "",
       },
       {
-        onSuccess: (response) => {
-          console.log("Document created:", response.data);
-          const documentId = response.data.id;
-          if (documentId) {
-            console.log("Navigating to edit page:", `/dashboard/document/${documentId}/edit`);
-            router.push(`/dashboard/document/${documentId}/edit`);
+        // Update the type of the data parameter to match the actual ResponseType
+        onSuccess: (data: { success: string; data: { documentId?: number } }) => {
+          // Check if the operation was successful and documentId is present
+          if (data.success === "true" && data.data.documentId) {
+            const documentId = data.data.documentId;
+            router.push(`/dashboard/Documents/${documentId}/edit`);
           } else {
-            console.error("Document ID is missing in the response");
-          }
-        },
-        onError: (error) => {
-          console.error("Error creating document:", error);
-          if (axios.isAxiosError(error) && error.response) {
-            console.error("Error response:", error.response);
+            // Handle the case where the operation failed
+            console.error("Failed to create document");
           }
         },
       }
@@ -48,7 +41,7 @@ const AddResume = () => {
         <Plus size={32} />
       </Button>
       <p className="mt-4 text-gray-700 text-sm">Add New Resume</p>
-      {status === 'pending' && (
+      {isPending && (
         <div
           className="fixed top-0 left-0 z-[9999] right-0 flex flex-col gap-2 items-center justify-center backdrop-filter bg-black/30 w-full h-full"
         >
@@ -64,5 +57,3 @@ const AddResume = () => {
 };
 
 export default AddResume;
-
-
