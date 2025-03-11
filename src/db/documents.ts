@@ -44,11 +44,11 @@ export const documentRelations = relations(documentTable, ({ one, many }) => {
   };
 });
 
-export const createDocumentTableSchema = createInsertSchema(documentTable, {
-  title: (schema) => schema.title.min(1),
-  themeColor: (schema) => schema.themeColor.optional(),
-  thumbnail: (schema) => schema.thumbnail.optional(),
-  currentPosition: (schema) => schema.currentPosition.optional(),
+export const createDocumentTableSchema = createInsertSchema(documentTable).extend({
+  title: z.string().min(1),
+  themeColor: z.string().optional(),
+  thumbnail: z.string().optional(),
+  currentPosition: z.number().optional(),
 }).pick({
   title: true,
   status: true,
