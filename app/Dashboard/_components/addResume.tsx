@@ -1,4 +1,3 @@
-"use client";
 import React, { useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { FileText, Loader, Plus } from 'lucide-react';
@@ -9,24 +8,17 @@ import { useRouter } from 'next/navigation';
 const AddResume = () => {
   const router = useRouter();
   const { isPending, mutate } = useCreateDocument();
-
   const onCreate = useCallback(() => {
     mutate(
       {
         title: "Untitled Resume",
-        authorEmail: "",
+        authorEmail: "user@example.com",
       },
       {
-        // Update the type of the data parameter to match the actual ResponseType
-        onSuccess: (data: { success: string; data: { documentId?: number } }) => {
-          // Check if the operation was successful and documentId is present
-          if (data.success === "true" && data.data.documentId) {
-            const documentId = data.data.documentId;
-            router.push(`/dashboard/Documents/${documentId}/edit`);
-          } else {
-            // Handle the case where the operation failed
-            console.error("Failed to create document");
-          }
+        onSuccess: (response) => {
+          // Access documentId from response.data
+          const documentId = response.data.documentId;
+          router.push(`/dashboard/Documents/${documentId}/edit`);
         },
       }
     );

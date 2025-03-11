@@ -13,6 +13,7 @@ import { experienceTable, experienceTableSchema } from "./experience";
 import { educationTable, educationTableSchema } from "./education";
 import { skillsTable, skillsTableSchema } from "./skills";
 import { z } from "zod";
+import { createInsertSchema } from "drizzle-zod";
 
 export const statusEnum = pgEnum("status", ["archived", "private", "public"]);
 
@@ -43,14 +44,18 @@ export const documentRelations = relations(documentTable, ({ one, many }) => {
   };
 });
 
-export const createDocumentTableSchema = z.object({
-  title: z.string(),
-  status: z.enum(["archived", "private", "public"]).optional(),
-  summary: z.string().nullable().optional(),
-  themeColor: z.string().optional(),
-  thumbnail: z.string().optional(),
-  currentPosition: z.number().optional(),
-  authorEmail: z.string(), // Add authorEmail to the schema
+export const createDocumentTableSchema = createInsertSchema(documentTable, {
+  title: (schema) => schema.title.min(1),
+  themeColor: (schema) => schema.themeColor.optional(),
+  thumbnail: (schema) => schema.thumbnail.optional(),
+  currentPosition: (schema) => schema.currentPosition.optional(),
+}).pick({
+  title: true,
+  status: true,
+  summary: true,
+  themeColor: true,
+  thumbnail: true,
+  currentPosition: true,
 });
 
 export const updateCombinedSchema = z.object({
