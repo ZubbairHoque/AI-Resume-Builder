@@ -61,7 +61,7 @@
     "@types/react-query": "^1.2.8",
     "@types/react-toastify": "^4.0.2",
     "@types/ws": "^8.5.14",
-    "drizzle-kit": "^0.19.13",
+    "drizzle-kit": "^0.31.7",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
     "postcss": "^8",
